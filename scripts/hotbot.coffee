@@ -5,14 +5,12 @@ module.exports = (robot) ->
   robot.hear /i want tea/i, (msg) ->
     drinkCount += 1
     participants[msg.user] = 'Tea'
-    msg.send "OH YOU WANT TEA?"
-    msg.send drinkCount
+    msg.send "One vote for tea - we're on " + drinkCount + " votes..."
 
   robot.hear /i want coffee/i, (msg) ->
     drinkCount += 1
     participants[msg.user] = 'Coffee'
-    msg.send "OH YOU WANT COFFEE?"
-    msg.send drinkCount
+    msg.send "One vote for coffee - we're on " + drinkCount + " votes..."
 
   if drinkCount is 5
     msg.send "WHOA THERE!"
