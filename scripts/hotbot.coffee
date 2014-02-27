@@ -14,8 +14,7 @@ module.exports = (robot) ->
     participants.push(msg.name)
     if drinkCount is 5
       fiveDrinks msg
-    # msg.send "One vote for tea - that makes " + drinkCount + "..."
-    msg.send msg.name
+    msg.send "One vote for tea - that makes " + drinkCount + "..."
 
   robot.hear /i want coffee/i, (msg) ->
     drinkCount += 1
