@@ -4,7 +4,7 @@ participants = []
 fiveDrinks = (msg) ->
   winner = participants[Math.floor(Math.random() * 5)]
   msg.send participants.toString()
-  msg.send "HOT DRINKS TIME! The winner is: " + winner + "!"
+  msg.send "HOT DRINKS TIME! The winner is: #{winner}!"
   drinkCount = 0
   participants = []
   return
@@ -12,19 +12,19 @@ fiveDrinks = (msg) ->
 module.exports = (robot) ->
   robot.hear /i want tea/i, (msg) ->
     drinkCount += 1
-    participants.push(username)
+    participants.push(msg.message.user.name)
     if drinkCount is 5
       fiveDrinks msg
     else
-      msg.send "One vote for tea from " + username + " - that makes " + drinkCount + "..."
+      msg.send "One vote for tea from #{msg.message.user.name} - that makes #{drinkCount}..."
 
   robot.hear /i want coffee/i, (msg) ->
     drinkCount += 1
-    participants.push(username)
+    participants.push(msg.message.user.name)
     if drinkCount is 5
       fiveDrinks msg
     else
-      msg.send "One vote for coffee - that makes " + drinkCount + "..."
+      msg.send "One vote for coffee from #{msg.message.user.name} - that makes #{drinkCount}..."
 
 
 # for index of participants
