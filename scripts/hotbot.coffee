@@ -2,8 +2,8 @@ drinkCount = 0
 participants = {}
 
 fiveDrinks = (msg) ->
-  msg.send participants
-  # msg.send "HOT DRINKS TIME! The winner is: " + msg.random Object.keys(participants) + "!"
+  winner = Object.keys(participants)[Math.floor(Math.random() * 5)]
+  msg.send "HOT DRINKS TIME! The winner is: " + winner + "!"
   drinkCount = 0
   participants = {}
   return
