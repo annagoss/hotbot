@@ -1,25 +1,25 @@
 drinkCount = 0
-participants = {}
+participants = []
 
 fiveDrinks = (msg) ->
-  winner = Object.keys(participants)[Math.floor(Math.random() * 5)]
+  winner = participants[Math.floor(Math.random() * 5)]
   msg.send "HOT DRINKS TIME! The winner is: " + winner + "!"
   drinkCount = 0
-  participants = {}
+  participants = []
   return
 
 module.exports = (robot) ->
   robot.hear /i want tea/i, (msg) ->
     drinkCount += 1
-    participants[msg.user_name] = 'Tea'
+    participants.push(msg.name)
     if drinkCount is 5
       fiveDrinks msg
     # msg.send "One vote for tea - that makes " + drinkCount + "..."
-    msg.send msg.user_name
+    msg.send msg.name
 
   robot.hear /i want coffee/i, (msg) ->
     drinkCount += 1
-    participants[msg.user_name] = 'Coffee'
+    participants.push(msg.name)
     if drinkCount is 5
       fiveDrinks msg
     msg.send "One vote for coffee - that makes " + drinkCount + "..."
