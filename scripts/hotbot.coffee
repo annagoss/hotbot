@@ -12,7 +12,7 @@ fiveDrinks = (msg) ->
 module.exports = (robot) ->
   robot.hear /i want tea/i, (msg) ->
     drinkCount += 1
-    participants.push(msg.user_name)
+    participants.push(msg.user.name)
     if drinkCount is 5
       fiveDrinks msg
     else
@@ -20,7 +20,7 @@ module.exports = (robot) ->
 
   robot.hear /i want coffee/i, (msg) ->
     drinkCount += 1
-    participants.push(msg.user)
+    participants.push(msg.user.name)
     if drinkCount is 5
       fiveDrinks msg
     else
