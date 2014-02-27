@@ -3,14 +3,16 @@ participants = {}
 
 module.exports = (robot) ->
   robot.hear /i want tea/i, (msg) ->
-    msg.send "OH YOU WANT TEA?"
     drinkCount += 1
     participants[msg.user] = 'Tea'
+    msg.send "OH YOU WANT TEA?"
+    msg.send drinkCount
 
   robot.hear /i want coffee/i, (msg) ->
-    msg.send "OH YOU WANT COFFEE?"
     drinkCount += 1
     participants[msg.user] = 'Coffee'
+    msg.send "OH YOU WANT COFFEE?"
+    msg.send drinkCount
 
   if drinkCount is 5
     msg.send "WHOA THERE!"
