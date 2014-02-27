@@ -12,16 +12,18 @@ module.exports = (robot) ->
   robot.hear /i want tea/i, (msg) ->
     drinkCount += 1
     participants.push(msg.name)
+    msg.send "One vote for tea - that makes " + drinkCount + "..."
     if drinkCount is 5
       fiveDrinks msg
-    msg.send "One vote for tea - that makes " + drinkCount + "..."
+
 
   robot.hear /i want coffee/i, (msg) ->
     drinkCount += 1
     participants.push(msg.name)
+    msg.send "One vote for coffee - that makes " + drinkCount + "..."
     if drinkCount is 5
       fiveDrinks msg
-    msg.send "One vote for coffee - that makes " + drinkCount + "..."
+
 
 # for index of participants
 #   msg.send index + ": " + participants[index]
