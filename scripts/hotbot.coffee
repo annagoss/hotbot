@@ -12,16 +12,15 @@ fiveDrinks = (msg) ->
 module.exports = (robot) ->
   robot.hear /i want tea/i, (msg) ->
     drinkCount += 1
-    msg.send JSON.stringify msg
-    # participants.push(msg.user.name)
+    participants.push(username)
     if drinkCount is 5
       fiveDrinks msg
     else
-      msg.send "One vote for tea - that makes " + drinkCount + "..."
+      msg.send "One vote for tea from " + username + " - that makes " + drinkCount + "..."
 
   robot.hear /i want coffee/i, (msg) ->
     drinkCount += 1
-    participants.push(msg.name)
+    participants.push(username)
     if drinkCount is 5
       fiveDrinks msg
     else
