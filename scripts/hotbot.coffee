@@ -2,15 +2,15 @@ drinkCount = 0
 participants = {}
 
 module.exports = (robot) ->
-  robot.respond /i want tea/i, (msg) ->
+  robot.hear /i want tea/i, (msg) ->
+    msg.send "OH YOU WANT TEA?"
     drinkCount += 1
     participants[msg.user] = 'Tea'
-    msg.reply "wants TEA."
 
-  robot.respond /i want coffee/i, (msg) ->
+  robot.hear /i want coffee/i, (msg) ->
+    msg.send "OH YOU WANT COFFEE?"
     drinkCount += 1
     participants[msg.user] = 'Coffee'
-    msg.reply "wants COFFEE."
 
   if drinkCount is 5
     msg.send "WHOA THERE!"
