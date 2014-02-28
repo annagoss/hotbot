@@ -10,7 +10,7 @@ fiveDrinks = (msg) ->
   return
 
 module.exports = (robot) ->
-  robot.hear /i want :?(tea|coffee):?/, (msg) ->
+  robot.hear /i want :?(tea|coffee):?/i, (msg) ->
     drink = msg.match[1]
     drinkCount += 1
     participants.push(msg.message.user.name)
