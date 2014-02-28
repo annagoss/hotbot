@@ -9,10 +9,6 @@ fiveDrinks = (msg) ->
   participants = []
   return
 
-waitForInput = () ->
-  drinkCount = 0
-setTimeout(waitForInput, 600000)
-
 module.exports = (robot) ->
   robot.hear /i want :?(tea|coffee):?/i, (msg) ->
     drink = msg.match[1]
@@ -21,6 +17,4 @@ module.exports = (robot) ->
     if drinkCount is maxVotes
       fiveDrinks msg
     else
-      window.clearTimeout waitForInput
-      waitForInput
       msg.send "One vote for #{drink} from #{msg.message.user.name} - that makes #{drinkCount}..."
