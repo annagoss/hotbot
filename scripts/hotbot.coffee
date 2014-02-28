@@ -1,31 +1,20 @@
 drinkCount = 0
+maxVotes = 5
 participants = []
 
 fiveDrinks = (msg) ->
   winner = participants[Math.floor(Math.random() * 5)]
-  msg.send participants.toString()
-  msg.send "HOT DRINKS TIME! The winner is: #{winner}!"
+  msg.send "HOT DRINKS TIME! The winner is: #{winner}! Good luck out there."
   drinkCount = 0
   participants = []
   return
 
 module.exports = (robot) ->
-  robot.hear /i want tea/i, (msg) ->
+  robot.hear /i want :?(tea|coffee):?/, (msg) ->
+    drink = msg.match[1]
     drinkCount += 1
     participants.push(msg.message.user.name)
-    if drinkCount is 5
+    if drinkCount is maxVotes
       fiveDrinks msg
     else
-      msg.send "One vote for tea from #{msg.message.user.name} - that makes #{drinkCount}..."
-
-  robot.hear /i want coffee/i, (msg) ->
-    drinkCount += 1
-    participants.push(msg.message.user.name)
-    if drinkCount is 5
-      fiveDrinks msg
-    else
-      msg.send "One vote for coffee from #{msg.message.user.name} - that makes #{drinkCount}..."
-
-
-# for index of participants
-#   msg.send index + ": " + participants[index]
+      msg.send "One vote for #{drink} from #{msg.message.user.name} - that makes #{drinkCount}..."
