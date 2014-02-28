@@ -22,5 +22,6 @@ module.exports = (robot) ->
       msg.send "One vote for #{drink} from #{msg.message.user.name} - that makes #{drinkCount}..."
       clearTimeout(resetTimer)
       setTimeout () ->
+        msg.send "TOO BAD! Not enough votes. Stay strong though! RESETTING VOTES..."
         drinkCount = 0
       , 300000
