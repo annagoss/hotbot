@@ -16,9 +16,10 @@ module.exports = (robot) ->
     if participants.length is maxVotes
       fiveDrinks msg
     else
-      msg.send "One vote for #{drink} from #{msg.message.user.name} - that makes #{participants.length}..."
       clearTimeout(resetTimer)
-      setTimeout () ->
+      resetTimer = setTimeout () ->
         msg.send "TOO BAD! Not enough votes. Stay strong though! RESETTING VOTES..."
         participants = []
       , 600000
+      msg.send "One vote for #{drink} from #{msg.message.user.name} - that makes #{participants.length}..."
+
