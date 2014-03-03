@@ -21,4 +21,4 @@ module.exports = (robot) ->
       setTimeout () ->
         msg.send "TOO BAD! Not enough votes. Stay strong though! RESETTING VOTES..."
         participants = []
-      , 300000
+      , 600000
