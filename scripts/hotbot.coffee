@@ -1,3 +1,23 @@
+# Description:
+#   Allows a group of users to randomly decide who makes tea and coffee.
+#
+# Dependencies:
+#   hubot-slack
+#
+# Configuration:
+#   HEROKU_URL
+#   HUBOT_SLACK_TOKEN
+#   HUBOT_SLACK_TEAM
+#   HUBOT_SLACK_BOTNAME
+#
+# Commands:
+#   i want <tea/coffee> - Adds an order to the pile. When there are five orders, Hotbot will choose
+#                         one of the orderers to make the tea or coffee. This times out after ten minutes 
+#                         if five orders are not met.
+#
+# Author:
+#   Calum Gunn
+
 maxVotes = 5
 participants = []
 resetTimer = null
