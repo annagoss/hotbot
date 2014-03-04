@@ -24,11 +24,17 @@
 maxVotes = 5
 participants = []
 resetTimer = null
+previousWinner = null
+winner = null
 
-fiveDrinks = (msg) ->
+pickAWinner = (prev) ->
   winner = participants[Math.floor(Math.random() * participants.length)]
-  msg.send "One vote for #{drink} from #{msg.message.user.name} - that makes #{participants.length}..."
-  msg.send "HOT DRINKS TIME! The winner is: #{winner}! Good luck out there."
+  pickAWinner prev if prev == winner
+
+fiveDrinks = (msg, drink) ->
+  previousWinner = winner if winner?
+  pickAWinner previousWinner
+  msg.send "One vote for #{drink} from #{msg.message.user.name} - that makes #{participants.length}...\nHOT DRINKS TIME! The winner is: #{winner}! Good luck out there."
   clearTimeout(resetTimer)
   participants = []
   return
@@ -38,7 +44,7 @@ module.exports = (robot) ->
     drink = msg.match[1]
     participants.push(msg.message.user.name)
     if participants.length is maxVotes
-      fiveDrinks msg
+      fiveDrinks msg, drink
     else
       clearTimeout(resetTimer)
       resetTimer = setTimeout () ->
