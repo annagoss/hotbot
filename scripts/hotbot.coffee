@@ -23,6 +23,7 @@
 
 maxVotes = 5
 participants = []
+orders = []
 resetTimer = null
 previousWinner = null
 winner = null
@@ -34,9 +35,14 @@ pickAWinner = (prev) ->
 fiveDrinks = (msg, drink) ->
   previousWinner = winner if winner?
   pickAWinner previousWinner
-  msg.send "One vote for #{drink} from #{msg.message.user.name} - that makes #{participants.length}...\nHOT DRINKS TIME! The winner is: #{winner}! Good luck out there."
+  orders.push("#{msg.message.user.name}: #{drink}")
+  formatted_orders = (order + "\n" for order in orders)
+  msg.send "One vote for #{drink} from #{msg.message.user.name} - that makes #{participants.length}...
+            \nHOT DRINKS TIME! The winner is: #{winner}!
+            \nORDERS:\n" + formatted_orders
   clearTimeout(resetTimer)
   participants = []
+  orders = []
   return
 
 module.exports = (robot) ->
@@ -51,5 +57,6 @@ module.exports = (robot) ->
         msg.send "TOO BAD! Not enough votes. Stay strong though! RESETTING VOTES..."
         participants = []
       , 600000
+      orders.push("#{msg.message.user.name}: #{drink}")
       msg.send "One vote for #{drink} from #{msg.message.user.name} - that makes #{participants.length}..."
 
