@@ -47,6 +47,7 @@ fiveDrinks = (msg, drink) ->
 
 module.exports = (robot) ->
   robot.hear /i want :?(tea|coffee):?/i, (msg) ->
+    return if msg.message.user.name in participants
     drink = msg.match[1]
     participants.push(msg.message.user.name)
     if participants.length is maxVotes
@@ -56,6 +57,7 @@ module.exports = (robot) ->
       resetTimer = setTimeout () ->
         msg.send "TOO BAD! Not enough votes. Stay strong though! RESETTING VOTES..."
         participants = []
+        orders = []
       , 600000
       orders.push("#{msg.message.user.name}: #{drink}")
       msg.send "One vote for #{drink} from @#{msg.message.user.name} - that makes #{participants.length}..."
