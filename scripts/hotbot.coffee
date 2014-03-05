@@ -47,7 +47,6 @@ fiveDrinks = (msg, drink) ->
 
 module.exports = (robot) ->
   robot.hear /i want :?(tea|coffee):?/i, (msg) ->
-    return if msg.message.user.name in participants
     drink = msg.match[1]
     participants.push(msg.message.user.name)
     if participants.length is maxVotes
