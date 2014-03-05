@@ -37,8 +37,8 @@ fiveDrinks = (msg, drink) ->
   pickAWinner previousWinner
   orders.push("#{msg.message.user.name}: #{drink}")
   formatted_orders = (order + "\n" for order in orders)
-  msg.send "One vote for #{drink} from #{msg.message.user.name} - that makes #{participants.length}...
-            \nHOT DRINKS TIME! The winner is: #{winner}!
+  msg.send "One vote for #{drink} from @#{msg.message.user.name} - that makes #{participants.length}...
+            \nHOT DRINKS TIME! The winner is: @#{winner}!
             \nORDERS:\n" + formatted_orders
   clearTimeout(resetTimer)
   participants = []
@@ -58,5 +58,5 @@ module.exports = (robot) ->
         participants = []
       , 600000
       orders.push("#{msg.message.user.name}: #{drink}")
-      msg.send "One vote for #{drink} from #{msg.message.user.name} - that makes #{participants.length}..."
+      msg.send "One vote for #{drink} from @#{msg.message.user.name} - that makes #{participants.length}..."
 
