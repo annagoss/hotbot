@@ -48,8 +48,19 @@ fiveDrinks = (msg, drink) ->
 module.exports = (robot) ->
   robot.hear /i want :?(tea|coffee):?/i, (msg) ->
     drink = msg.match[1]
+    totalTeas = robot.brain.get 'teaCount'
+    totalCoffees = robot.brain.get 'coffeeCount'
+    if drink == 'tea' or drink == 'TEA' or drink == 'Tea'
+      robot.brain.set 'teaCount', totalTeas + 1
+    else
+      robot.brain.set 'coffeeCount', totalCoffees + 1
     participants.push(msg.message.user.name)
     if participants.length is maxVotes
+      totalRounds = robot.brain.get 'totalRounds'
+      if totalRounds == null
+        totalRounds = 0
+      robot.brain.set totalRounds: (totalRounds + 1)
+
       fiveDrinks msg, drink
     else
       clearTimeout(resetTimer)
@@ -63,4 +74,10 @@ module.exports = (robot) ->
 
   robot.hear /i want :?pizza:?/i, (msg) ->
     msg.send "Well who wouldn't?"
+
+  robot.hear /how many rounds?/i, (msg) ->
+    rounds = robot.brain.get('totalRounds')
+    teas = robot.brain.get('teaCount')
+    coffees = robot.brain.get('coffeeCount')
+    msg.send "There have been #{rounds} rounds since records began.\n#{teas} cups of tea, and #{coffees} cups of coffee."
 
