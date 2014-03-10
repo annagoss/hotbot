@@ -61,3 +61,6 @@ module.exports = (robot) ->
       orders.push("@#{msg.message.user.name}: #{drink}")
       msg.send "One vote for #{drink} from @#{msg.message.user.name} - that makes #{participants.length}..."
 
+  robot.hear /i want :?pizza:?/i, (msg) ->
+    msg.send "Well who wouldn't?"
+
