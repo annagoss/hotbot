@@ -35,7 +35,7 @@ pickAWinner = (prev) ->
 fiveDrinks = (msg, drink) ->
   previousWinner = winner if winner?
   pickAWinner previousWinner
-  orders.push("#{msg.message.user.name}: #{drink}\n")
+  orders.push("@#{msg.message.user.name}: #{drink}\n")
   formatted_orders = ("\n" + order for order in orders)
   msg.send "Final vote for #{drink} from @#{msg.message.user.name} - that makes #{participants.length}...
             \nHOT DRINKS TIME! The winner is: @#{winner.toUpperCase()}!
@@ -58,6 +58,6 @@ module.exports = (robot) ->
         participants = []
         orders = []
       , 600000
-      orders.push("#{msg.message.user.name}: #{drink}")
+      orders.push("@#{msg.message.user.name}: #{drink}")
       msg.send "One vote for #{drink} from @#{msg.message.user.name} - that makes #{participants.length}..."
 
