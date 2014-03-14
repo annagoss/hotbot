@@ -12,6 +12,8 @@
 #
 # Commands:
 #   i want <tea/coffee> - Adds an order to the pile.
+#   <tea/coffee> please - Same.
+#   how many rounds? - Informs the chat how many rounds and how many teas and coffees have been made.
 #
 # Notes:
 #   Once five orders have been entered, Hotbot decides who shall make the drinks.
@@ -33,6 +35,10 @@ pickAWinner = (prev) ->
   pickAWinner prev if prev == winner
 
 fiveDrinks = (msg, drink) ->
+  totalRounds = robot.brain.get 'totalRounds'
+  if totalRounds == null
+    totalRounds = 0
+  robot.brain.set totalRounds: (totalRounds + 1)
   previousWinner = winner if winner?
   pickAWinner previousWinner
   orders.push("@#{msg.message.user.name}: #{drink}\n")
@@ -45,35 +51,37 @@ fiveDrinks = (msg, drink) ->
   orders = []
   return
 
+processOrder = (msg, drink) ->
+  totalTeas = robot.brain.get 'teaCount'
+  totalCoffees = robot.brain.get 'coffeeCount'
+  msg.send "HIYA"
+  if drink == 'tea' or drink == 'TEA' or drink == 'Tea'
+    robot.brain.set 'teaCount', totalTeas + 1
+  else
+    robot.brain.set 'coffeeCount', totalCoffees + 1
+  participants.push(msg.message.user.name)
+  if participants.length is maxVotes
+    fiveDrinks msg, drink
+  else
+    clearTimeout(resetTimer)
+    resetTimer = setTimeout () ->
+      msg.send "OH DARN! Not enough votes. RESETTING..."
+      participants = []
+      orders = []
+    , 600000
+    orders.push("@#{msg.message.user.name}: #{drink}")
+    msg.send "One vote for #{drink} from @#{msg.message.user.name} - that makes #{participants.length}..."
+
 module.exports = (robot) ->
   robot.hear /i want :?(tea|coffee):?/i, (msg) ->
-    drink = msg.match[1]
-    totalTeas = robot.brain.get 'teaCount'
-    totalCoffees = robot.brain.get 'coffeeCount'
-    if drink == 'tea' or drink == 'TEA' or drink == 'Tea'
-      robot.brain.set 'teaCount', totalTeas + 1
-    else
-      robot.brain.set 'coffeeCount', totalCoffees + 1
-    participants.push(msg.message.user.name)
-    if participants.length is maxVotes
-      totalRounds = robot.brain.get 'totalRounds'
-      if totalRounds == null
-        totalRounds = 0
-      robot.brain.set totalRounds: (totalRounds + 1)
+    processOrder msg, msg.match[1]
 
-      fiveDrinks msg, drink
-    else
-      clearTimeout(resetTimer)
-      resetTimer = setTimeout () ->
-        msg.send "TOO BAD! Not enough votes. Stay strong though! RESETTING VOTES..."
-        participants = []
-        orders = []
-      , 600000
-      orders.push("@#{msg.message.user.name}: #{drink}")
-      msg.send "One vote for #{drink} from @#{msg.message.user.name} - that makes #{participants.length}..."
+  robot.hear /:?(tea|coffee):? please/i, (msg) ->
+    processOrder msg, msg.match[1]
 
   robot.hear /i want :?pizza:?/i, (msg) ->
-    msg.send "Well who wouldn't?"
+    responses = ["Well, who wouldn't?", "Me too.", "If only there were a Pizzabot...", "PIZZA? :pizza:?", "PIZZA. PIZZA. PIZZA. PIZZA. PIZZA. PIZZA. PIZZA."]
+    msg.send msg.random responses
 
   robot.hear /how many rounds?/i, (msg) ->
     rounds = robot.brain.get('totalRounds')
