@@ -46,7 +46,7 @@ fiveDrinks = (msg, drink) ->
   return
 
 module.exports = (robot) ->
-  robot.hear /(i want :?(tea|coffee):?|:?(tea|coffee):? please)/i, (msg) ->
+  robot.hear /i want :?(tea|coffee):?/i, (msg) ->
     drink = msg.match[1]
     totalTeas = robot.brain.get 'teaCount'
     totalCoffees = robot.brain.get 'coffeeCount'
