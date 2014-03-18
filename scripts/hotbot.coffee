@@ -34,23 +34,6 @@ pickAWinner = (prev) ->
   winner = participants[Math.floor(Math.random() * participants.length)]
   pickAWinner prev if prev == winner
 
-fiveDrinks = (msg, drink) ->
-  totalRounds = robot.brain.get 'totalRounds'
-  totalRounds = 0 if totalRounds == null
-  robot.brain.set totalRounds: (totalRounds + 1)
-  previousWinner = if winner? then winner else "Nobody!"
-  msg.send previousWinner
-  pickAWinner previousWinner
-  orders.push("@#{msg.message.user.name}: #{drink}\n")
-  formatted_orders = ("\n" + order for order in orders)
-  msg.send "Final vote for #{drink} from @#{msg.message.user.name} - that makes #{participants.length}...
-            \nHOT DRINKS TIME! The winner is: @#{winner.toUpperCase()}!
-            \nORDERS:\n" + formatted_orders
-  clearTimeout(resetTimer)
-  participants = []
-  orders = []
-  return
-
 module.exports = (robot) ->
   robot.hear /(i want :?(tea|coffee):?|:?(tea|coffee):? please)/i, (msg) ->
     if msg.match[2] == undefined
@@ -67,7 +50,20 @@ module.exports = (robot) ->
     else
       robot.brain.set 'coffeeCount', totalCoffees + 1
     if participants.length is maxVotes
-      fiveDrinks msg, drink
+      totalRounds = robot.brain.get 'totalRounds'
+      totalRounds = 0 if totalRounds == null
+      robot.brain.set 'totalRounds', totalRounds + 1
+      previousWinner = if winner? then winner else "Nobody!"
+      pickAWinner previousWinner
+      orders.push("@#{msg.message.user.name}: #{drink}\n")
+      formatted_orders = ("\n" + order for order in orders)
+      msg.send "Final vote for #{drink} from @#{msg.message.user.name} - that makes #{participants.length}...
+                \nHOT DRINKS TIME! The winner is: @#{winner.toUpperCase()}!
+                \nORDERS:\n" + formatted_orders
+      clearTimeout(resetTimer)
+      participants = []
+      orders = []
+      return
     else
       clearTimeout(resetTimer)
       resetTimer = setTimeout () ->
