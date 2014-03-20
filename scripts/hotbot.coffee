@@ -58,7 +58,7 @@ module.exports = (robot) ->
       orders.push("@#{msg.message.user.name}: #{drink}\n")
       formatted_orders = ("\n" + order for order in orders)
       msg.send "Final vote for #{drink} from @#{msg.message.user.name} - that makes #{participants.length}...
-                \nHOT DRINKS TIME! The winner is: @#{winner.toUpperCase()}!
+                \nHOT DRINKS TIME! The winner is: @#{winner}!
                 \nORDERS:\n" + formatted_orders
       clearTimeout(resetTimer)
       participants = []
