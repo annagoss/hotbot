@@ -22,6 +22,7 @@
 #
 # Author:
 #   calumgunn
+#   thomasmarshall
 
 maxVotes = 5
 participants = []
