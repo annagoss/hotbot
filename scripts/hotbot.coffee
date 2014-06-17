@@ -49,6 +49,8 @@ module.exports = (robot) ->
       robot.brain.set 'teaCount', totalTeas + 1
     else
       robot.brain.set 'coffeeCount', totalCoffees + 1
+    if extraInfo = msg.message.text.match /\(([^)]+)\)/
+      drink += ' ' + extraInfo[0]
     if participants.length is maxVotes
       totalRounds = robot.brain.get 'totalRounds'
       totalRounds = 0 if totalRounds == null
